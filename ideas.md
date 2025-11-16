@@ -9,3 +9,6 @@
   - ex. A knife can penetrate block and cause bleeding that can stack
   - This means debuffs need to be added
 - Choice of artifact / weapon after fights
+
+## Characters
+- Someone who can change the color of a die
