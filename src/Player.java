@@ -8,6 +8,7 @@ public class Player {
     HashMap<String, Integer> stats = new HashMap<>();
     ArrayList<Item> items;
     Weapon weapon;
+    ArrayList<Dice> selectedDice = new ArrayList<>();
 
     // Basically a test character
     public Player () {
@@ -19,9 +20,6 @@ public class Player {
         stats.put("speed", 0);
         items = new ArrayList<>();
         weapon = new Weapon(); // Unarmed
-    }
-    public Player (String name, int health, HashMap<String, Integer> stats) {
-
     }
 
 }

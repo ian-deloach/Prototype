@@ -7,5 +7,6 @@ public class Enemy {
     int health;
     HashMap<String, Integer> stats;
     ArrayList<Item> rewards;
+    ArrayList<Dice> selectedDice = new ArrayList<>();
 
 }
