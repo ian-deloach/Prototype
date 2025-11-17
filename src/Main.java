@@ -4,8 +4,11 @@ public class Main {
         Player player = new Player();
         Enemy enemy = new Enemy();
         Battle battle = new Battle(player, enemy);
+        Graphics graphics = new Graphics();
 
-        battle.runBattle();
+        graphics.run();
+
+//        battle.runBattle();
 
     }
 }
