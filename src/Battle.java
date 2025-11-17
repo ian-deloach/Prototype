@@ -78,15 +78,14 @@ public class Battle {
             enemy.health -= 1;
             System.out.println("Enemy hit! Lives left: " + enemy.health);
         } else {
-            System.out.println("Player blocked!");
-            System.out.println("Enemy blocked! E.A " + enemy.stats.get("attack") + " A.D " + player.stats.get("defense"));
+            System.out.println("Enemy blocked! E.D " + enemy.stats.get("defense") + " > A.A " + player.stats.get("attack"));
         }
 
         if (enemy.stats.get("attack") > player.stats.get("defense")) {
             player.health -= 1;
             System.out.println("Player hit! Lives left: " + player.health);
         } else {
-            System.out.println("Enemy blocked! P.A " + player.stats.get("attack") + " E.D " + enemy.stats.get("defense"));
+            System.out.println("Player blocked! P.D " + player.stats.get("defense") + " > E.A " + enemy.stats.get("attack"));
         }
         alterStats(false);
 
