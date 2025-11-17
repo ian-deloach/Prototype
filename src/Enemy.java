@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Enemy {
+public class Enemy extends Creature {
 
-    String name;
-    int health;
-    HashMap<String, Integer> stats;
     ArrayList<Item> rewards;
-    ArrayList<Dice> selectedDice = new ArrayList<>();
+
+    public Enemy() {
+        super();
+        this.name = "test dummy";
+    }
 
 }
