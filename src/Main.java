@@ -5,7 +5,7 @@ public class Main {
         Enemy enemy = new Enemy();
         Battle battle = new Battle(player, enemy);
 
-        battle.startRound();
+        battle.runBattle();
 
     }
 }

@@ -16,9 +16,22 @@ public class Battle {
         fighters[1] = enemy;
     }
 
+    public void runBattle() {
+
+        while (player.health > 0 && enemy.health > 0) {
+            startRound();
+        }
+
+        if (player.health <= 0) {
+            System.out.println("Player died.");
+        } else {
+            System.out.println("Enemy died.");
+        }
+    }
+
     // Resets the available dice at the beginning of the round
     public void startRound() {
-        draftDice.removeAll(draftDice);
+        draftDice.clear();
         for (int i = 0; i < 6; i++) {
             draftDice.add(new Dice(
                     random.nextInt(4),
@@ -26,29 +39,28 @@ public class Battle {
             ));
         }
 
+        System.out.println("Draft size: " + draftDice.size());
         draftPeriod();
     }
 
     // Where the player and enemy pick dice
     public void draftPeriod() {
-        // TODO TEST VALUES. MAKE IT SO YOU CAN ACTUALLY PICK DICE
-        player.selectedDice.add(draftDice.get(0));
-        draftDice.remove(0);
 
-        if (draftDice.isEmpty()) {attack();}
+        while (!draftDice.isEmpty()) {
+            // TODO TEST VALUES. MAKE IT SO YOU CAN ACTUALLY PICK DICE
+            player.selectedDice.add(draftDice.remove(0));
+            // TODO implement enemy attack logic
+            enemy.selectedDice.add(draftDice.remove(0));
+            System.out.println("Remaining dice: " + draftDice.size());
+        }
 
-        // TODO implement enemy attack logic
-        enemy.selectedDice.add(draftDice.get(0));
-
-        if (draftDice.isEmpty()) {attack();}
-        else {draftPeriod();}
+        attack();
 
     }
 
     public void alterStats(boolean isAttacking) {
         int statChange;
         for (Creature fighter : fighters) {
-            System.out.println(fighter.name);
             for (Dice die : fighter.selectedDice) {
                 statChange = isAttacking ? die.value : -die.value;
                 // Dice change the stats of the fighter themselves, then change back after attacking.
@@ -64,21 +76,23 @@ public class Battle {
         alterStats(true);
         if (player.stats.get("attack") > enemy.stats.get("defense")) {
             enemy.health -= 1;
+            System.out.println("Enemy hit! Lives left: " + enemy.health);
+        } else {
+            System.out.println("Player blocked!");
+            System.out.println("Enemy blocked! E.A " + enemy.stats.get("attack") + " A.D " + player.stats.get("defense"));
         }
 
         if (enemy.stats.get("attack") > player.stats.get("defense")) {
             player.health -= 1;
-        }
-
-        while (player.health > 0 && enemy.health > 0) {
-            startRound();
-        }
-
-        if (player.health == 0) {
-            System.out.println("Player died.");
+            System.out.println("Player hit! Lives left: " + player.health);
         } else {
-            System.out.println("Enemy died.");
+            System.out.println("Enemy blocked! P.A " + player.stats.get("attack") + " E.D " + enemy.stats.get("defense"));
         }
+        alterStats(false);
+
+        player.selectedDice.clear();
+        enemy.selectedDice.clear();
+
     }
 
 }
