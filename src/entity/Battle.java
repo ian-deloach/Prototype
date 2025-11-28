@@ -1,3 +1,5 @@
+package entity;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,9 +25,9 @@ public class Battle {
         }
 
         if (player.health <= 0) {
-            System.out.println("Player died.");
+            System.out.println("entity.Player died.");
         } else {
-            System.out.println("Enemy died.");
+            System.out.println("entity.Enemy died.");
         }
     }
 
@@ -63,7 +65,7 @@ public class Battle {
         for (Creature fighter : fighters) {
             for (Dice die : fighter.selectedDice) {
                 statChange = isAttacking ? die.value : -die.value;
-                // Dice change the stats of the fighter themselves, then change back after attacking.
+                // entity.Dice change the stats of the fighter themselves, then change back after attacking.
                 fighter.stats.put(die.type,
                         fighter.stats.get(die.type) + statChange);
             }
@@ -76,16 +78,16 @@ public class Battle {
         alterStats(true);
         if (player.stats.get("attack") > enemy.stats.get("defense")) {
             enemy.health -= 1;
-            System.out.println("Enemy hit! Lives left: " + enemy.health);
+            System.out.println("entity.Enemy hit! Lives left: " + enemy.health);
         } else {
-            System.out.println("Enemy blocked! E.D " + enemy.stats.get("defense") + " > A.A " + player.stats.get("attack"));
+            System.out.println("entity.Enemy blocked! E.D " + enemy.stats.get("defense") + " > A.A " + player.stats.get("attack"));
         }
 
         if (enemy.stats.get("attack") > player.stats.get("defense")) {
             player.health -= 1;
-            System.out.println("Player hit! Lives left: " + player.health);
+            System.out.println("entity.Player hit! Lives left: " + player.health);
         } else {
-            System.out.println("Player blocked! P.D " + player.stats.get("defense") + " > E.A " + enemy.stats.get("attack"));
+            System.out.println("entity.Player blocked! P.D " + player.stats.get("defense") + " > E.A " + enemy.stats.get("attack"));
         }
         alterStats(false);
 

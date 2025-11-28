@@ -1,3 +1,5 @@
+package entity;
+
 public class Dice {
 
     String[] typeChoices = {"attack", "defense", "accuracy", "speed", "wild"};

@@ -1,7 +1,7 @@
 # Gameplay
 - Roll 6 dice at the beginning of the turn
 - Choose the attack you want to do
-- Player attacks first
+- entity.Player attacks first
 - If attack > defense, hit
 - Weapons / players determine what kind of attacks you can do and their effects
   - ex. A character can focus to increase their power next turn
