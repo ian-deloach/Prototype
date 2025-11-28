@@ -16,7 +16,6 @@ public class Main {
 
         screen.createFrame();
 
-//        battle.runBattle();
 
     }
 }

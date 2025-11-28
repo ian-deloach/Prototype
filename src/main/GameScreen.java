@@ -11,31 +11,46 @@ import javax.swing.*;
 public class GameScreen extends JFrame implements KeyListener {
 
     BufferedImage border;
-    BufferedImage testDie;
-
+    DrawingPanel borderPanel = new DrawingPanel();
+    JLayeredPane layers = new JLayeredPane();
 
     public void createFrame() throws IOException {
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = dimension.width;
-        int height = dimension.height;
         addKeyListener(this);
 
         border = ImageIO.read(new File("src/resources/border.png"));
-        DrawingPanel panel = new DrawingPanel();
-        panel.setPreferredSize(new Dimension(1280, 720));
-        panel.setOpaque(false);
-
-        setSize(width, height);
+        layers.setPreferredSize(new Dimension(1280, 720));
+        layers.setLayout(null);
+        add(layers);
+        borderPanel.setBounds(0, 0, 1280, 720);
+        borderPanel.setOpaque(false);
+        layers.add(borderPanel, 0);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(Frame.MAXIMIZED_BOTH);
         setUndecorated(true);
         getContentPane().setBackground(Color.black);
 
-        add(panel);
+        add(borderPanel);
         pack();
         setVisible(true);
+        layers.setBounds(0, 0, getWidth(), getHeight());
+        borderPanel.setBounds(0, 0, getWidth(), getHeight());
 
+        BattleScreen battle = new BattleScreen();
+        battle.createDice(this);
+
+    }
+
+    private class DrawingPanel extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(border, 320, 180, 1280, 720, null);
+        }
+    }
+
+    public JLayeredPane getLayers() {
+        return layers;
     }
 
     @Override
@@ -56,13 +71,5 @@ public class GameScreen extends JFrame implements KeyListener {
 
     }
 
-
-    private class DrawingPanel extends JPanel {
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(border, 320, 180, 1280, 720, null);
-        }
-    }
 
 }
