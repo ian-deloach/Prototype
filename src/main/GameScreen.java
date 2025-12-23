@@ -16,7 +16,8 @@ public class GameScreen extends JFrame implements KeyListener {
 
     public void createFrame() throws IOException {
         addKeyListener(this);
-
+        setTitle("oough");
+        setIconImage(ImageIO.read(new File("src/resources/idk.png")));
         border = ImageIO.read(new File("src/resources/border.png"));
         layers.setPreferredSize(new Dimension(1280, 720));
         layers.setLayout(null);
