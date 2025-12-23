@@ -1,14 +1,19 @@
 package entity;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Battle {
 
     Player player;
     Enemy enemy;
+    Boolean isPlayerTurn = true;
     Creature[] fighters = new Creature[2];
     ArrayList<Dice> draftDice = new ArrayList<>();
+
+    Scanner scan = new Scanner(System.in);
     Random random = new Random();
 
     public Battle(Player player, Enemy enemy) {
@@ -48,9 +53,29 @@ public class Battle {
     // Where the player and enemy pick dice
     public void draftPeriod() {
 
+        int playerChoice = 0;
+
         while (!draftDice.isEmpty()) {
-            // TODO TEST VALUES. MAKE IT SO YOU CAN ACTUALLY PICK DICE
-            player.selectedDice.add(draftDice.remove(0));
+            if (isPlayerTurn) {
+                for (int i = 0; i < draftDice.size(); i++) {
+                    System.out.println(i + "." + draftDice.get(i).type + "\t" + draftDice.get(i).value);
+                }
+
+                try {
+                    playerChoice = scan.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Please input an integer");
+                    scan.next();
+                    draftPeriod();
+                }
+            }
+
+            try {
+                player.selectedDice.add(draftDice.remove(playerChoice));
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Choose a valid number");
+                draftPeriod();
+            }
             // TODO implement enemy attack logic
             enemy.selectedDice.add(draftDice.remove(0));
             System.out.println("Remaining dice: " + draftDice.size());
@@ -73,7 +98,6 @@ public class Battle {
     }
 
     // The round ends, and damage is dealt
-    // TODO remember to clear selectedDice
     public void attack() {
         alterStats(true);
         if (player.stats.get("attack") > enemy.stats.get("defense")) {
