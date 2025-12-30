@@ -77,7 +77,11 @@ public class Battle {
                 draftPeriod();
             }
             // TODO implement enemy attack logic
-            enemy.selectedDice.add(draftDice.remove(0));
+            try {
+                enemy.selectedDice.add(draftDice.remove(0));
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("What");
+            }
             System.out.println("Remaining dice: " + draftDice.size());
         }
 
@@ -97,9 +101,24 @@ public class Battle {
         }
     }
 
+    public void attackSelect() {
+        int index = 0;
+        ArrayList<Creature.Ability> availableAbilities = new ArrayList<>();
+
+        System.out.println("Available abilities");
+        for (Creature.Ability ability : player.abilities) {
+            System.out.println(index + ". " + ability.name);
+            availableAbilities.add(ability);
+            index++;
+        }
+        scan.nextInt();
+
+    }
+
     // The round ends, and damage is dealt
     public void attack() {
         alterStats(true);
+        attackSelect();
         if (player.stats.get("attack") > enemy.stats.get("defense")) {
             enemy.health -= 1;
             System.out.println("entity.Enemy hit! Lives left: " + enemy.health);
