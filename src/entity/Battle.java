@@ -60,6 +60,7 @@ public class Battle {
                 for (int i = 0; i < draftDice.size(); i++) {
                     System.out.println(i + "." + draftDice.get(i).type + "\t" + draftDice.get(i).value);
                 }
+                displayCombatStats();
 
                 try {
                     playerChoice = scan.nextInt();
@@ -101,13 +102,27 @@ public class Battle {
         }
     }
 
+    public void displayCombatStats() {
+        System.out.println("--------------------------------------------------");
+        for (Creature fighter : fighters) {
+            System.out.println(fighter.name
+                    + "\nAttack\t" + fighter.stats.get(Dice.DieType.ATTACK)
+                    + "\nDefense\t" + fighter.stats.get(Dice.DieType.DEFENSE)
+                    + "\nFocus\t" + fighter.stats.get(Dice.DieType.FOCUS)
+                    + "\nSpeed\t" + fighter.stats.get(Dice.DieType.SPEED));
+            System.out.println("--------------------------------------------------\n");
+        }
+
+    }
+
     public void attackSelect() {
         int index = 0;
         ArrayList<Creature.Ability> availableAbilities = new ArrayList<>();
 
         System.out.println("Available abilities");
         for (Creature.Ability ability : player.abilities) {
-            System.out.println(index + ". " + ability.name);
+            System.out.println(index + ". " + ability.name + "\t"
+                    + ability.effect);
             availableAbilities.add(ability);
             index++;
         }
@@ -119,18 +134,26 @@ public class Battle {
     public void attack() {
         alterStats(true);
         attackSelect();
-        if (player.stats.get("attack") > enemy.stats.get("defense")) {
+        if (player.stats.get(Dice.DieType.ATTACK) > enemy.stats.get(Dice.DieType.DEFENSE)) {
             enemy.health -= 1;
-            System.out.println("entity.Enemy hit! Lives left: " + enemy.health);
+            System.out.println("Enemy hit! Lives left: " + enemy.health);
+            System.out.println("Enemy Defense " + enemy.stats.get(Dice.DieType.DEFENSE)
+                        + " < Player Attack  " + player.stats.get(Dice.DieType.ATTACK));
         } else {
-            System.out.println("entity.Enemy blocked! E.D " + enemy.stats.get("defense") + " > A.A " + player.stats.get("attack"));
+            System.out.println("Enemy blocked!");
+            System.out.println("Enemy Defense " + enemy.stats.get(Dice.DieType.DEFENSE)
+                        + " >= Player Attack " + player.stats.get(Dice.DieType.ATTACK));
         }
 
-        if (enemy.stats.get("attack") > player.stats.get("defense")) {
+        if (enemy.stats.get(Dice.DieType.ATTACK) > player.stats.get(Dice.DieType.DEFENSE)) {
             player.health -= 1;
-            System.out.println("entity.Player hit! Lives left: " + player.health);
+            System.out.println("Player hit! Lives left: " + player.health);
+            System.out.println("Player Defense " + player.stats.get(Dice.DieType.DEFENSE)
+                        + " < Enemy Attack " + enemy.stats.get(Dice.DieType.ATTACK));
         } else {
-            System.out.println("entity.Player blocked! P.D " + player.stats.get("defense") + " > E.A " + enemy.stats.get("attack"));
+            System.out.println("Player blocked!");
+            System.out.println("Player Defense " + player.stats.get(Dice.DieType.DEFENSE)
+                        + " >= Enemy Attack " + enemy.stats.get(Dice.DieType.ATTACK));
         }
         alterStats(false);
 

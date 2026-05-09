@@ -7,18 +7,18 @@ public class Creature {
 
     String name;
     int health;
-    HashMap<String, Integer> stats = new HashMap<>();
-    HashMap<String, Integer> tempStatChanges = new HashMap<>();
+    HashMap<Dice.DieType, Integer> stats = new HashMap<>();
+    HashMap<Dice.DieType, Integer> tempStatChanges = new HashMap<>();
     ArrayList<Dice> selectedDice = new ArrayList<>();
     ArrayList<Ability> abilities = new ArrayList<>();
 
     public Creature() {
         name = "Unknown";
         health = 3;
-        stats.put("attack", 0);
-        stats.put("defense", 0);
-        stats.put("accuracy", 0);
-        stats.put("speed", 0);
+        stats.put(Dice.DieType.ATTACK, 0);
+        stats.put(Dice.DieType.DEFENSE, 0);
+        stats.put(Dice.DieType.FOCUS, 0);
+        stats.put(Dice.DieType.SPEED, 0);
         // Each creature starts with a basic attack
         abilities.add(new Ability());
     }

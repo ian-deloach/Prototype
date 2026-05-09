@@ -2,12 +2,24 @@ package entity;
 
 public class Dice {
 
-    String[] typeChoices = {"attack", "defense", "accuracy", "speed", "wild"};
-    String type;
+    enum DieType {
+        ATTACK,
+        DEFENSE,
+        FOCUS,
+        SPEED
+    }
+
+    DieType type;
     int value;
 
-    public Dice(int typeIndex, int value) {
-        this.type = typeChoices[typeIndex];
+    // For random dice creation
+    public Dice(int randomType, int randomValue) {
+        this.type =  DieType.values()[randomType];
+        this.value = randomValue;
+    }
+
+    public Dice(DieType type, int value) {
+        this.type = type;
         this.value = value;
     }
 
