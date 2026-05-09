@@ -13,6 +13,14 @@ public class Player extends Creature {
         this.name = "ian";
         items = new ArrayList<>();
         weapon = new Weapon(); // Unarmed
+        abilities.add(new Ability(
+                "Big attack",
+                "Take some extra time to hit harder.",
+                5,
+                3,
+                true
+                )
+        );
     }
 
 }

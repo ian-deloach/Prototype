@@ -20,7 +20,9 @@ public class Battle {
         this.player = player;
         this.enemy = enemy;
         fighters[0] = player;
+        player.stats.putAll(player.baseStats);
         fighters[1] = enemy;
+        enemy.stats.putAll(enemy.baseStats);
     }
 
     public void runBattle() {
@@ -30,9 +32,9 @@ public class Battle {
         }
 
         if (player.health <= 0) {
-            System.out.println("entity.Player died.");
+            System.out.println("Player died.");
         } else {
-            System.out.println("entity.Enemy died.");
+            System.out.println("Enemy died.");
         }
     }
 
@@ -47,6 +49,7 @@ public class Battle {
         }
 
         System.out.println("Draft size: " + draftDice.size());
+        System.out.println("--------------------------------------------------");
         draftPeriod();
     }
 
@@ -72,6 +75,7 @@ public class Battle {
             }
 
             try {
+                alterStats(player, draftDice.get(playerChoice));
                 player.selectedDice.add(draftDice.remove(playerChoice));
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Choose a valid number");
@@ -79,6 +83,7 @@ public class Battle {
             }
             // TODO implement enemy attack logic
             try {
+                alterStats(enemy, draftDice.get(0));
                 enemy.selectedDice.add(draftDice.remove(0));
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("What");
@@ -90,16 +95,10 @@ public class Battle {
 
     }
 
-    public void alterStats(boolean isAttacking) {
-        int statChange;
-        for (Creature fighter : fighters) {
-            for (Dice die : fighter.selectedDice) {
-                statChange = isAttacking ? die.value : -die.value;
-                // entity.Dice change the stats of the fighter themselves, then change back after attacking.
-                fighter.stats.put(die.type,
-                        fighter.stats.get(die.type) + statChange);
-            }
-        }
+    public void alterStats(Creature fighter, Dice selectedDie) {
+        int statChange = selectedDie.value;
+        fighter.stats.put(selectedDie.type,
+                fighter.stats.get(selectedDie.type) + statChange);
     }
 
     public void displayCombatStats() {
@@ -115,25 +114,29 @@ public class Battle {
 
     }
 
-    public void attackSelect() {
+    public void abilitySelect() {
         int index = 0;
         ArrayList<Creature.Ability> availableAbilities = new ArrayList<>();
 
         System.out.println("Available abilities");
         for (Creature.Ability ability : player.abilities) {
-            System.out.println(index + ". " + ability.name + "\t"
-                    + ability.effect);
-            availableAbilities.add(ability);
-            index++;
+            if (player.stats.get(Dice.DieType.FOCUS) >= ability.cost) {
+                System.out.println(index + ". " + ability.name + "\t"
+                        + ability.effect);
+                availableAbilities.add(ability);
+                index++;
+            }
         }
+        // Make try catch block for selecting ability
+        // Right now it doesn't actually do anything
         scan.nextInt();
+
 
     }
 
     // The round ends, and damage is dealt
     public void attack() {
-        alterStats(true);
-        attackSelect();
+        abilitySelect();
         if (player.stats.get(Dice.DieType.ATTACK) > enemy.stats.get(Dice.DieType.DEFENSE)) {
             enemy.health -= 1;
             System.out.println("Enemy hit! Lives left: " + enemy.health);
@@ -155,10 +158,12 @@ public class Battle {
             System.out.println("Player Defense " + player.stats.get(Dice.DieType.DEFENSE)
                         + " >= Enemy Attack " + enemy.stats.get(Dice.DieType.ATTACK));
         }
-        alterStats(false);
 
+        // Reset fighters for the next drafting round
         player.selectedDice.clear();
+        player.stats.putAll(player.baseStats);
         enemy.selectedDice.clear();
+        enemy.stats.putAll(enemy.baseStats);
 
     }
 
