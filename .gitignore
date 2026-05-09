@@ -29,4 +29,5 @@ bin/
 .DS_Store
 
 ### Logging
-logging.log
+logs/
+*.properties

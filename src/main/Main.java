@@ -4,7 +4,9 @@ import entity.Battle;
 import creatures.Enemy;
 import creatures.Player;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.logging.LogManager;
 
 public class Main {
 

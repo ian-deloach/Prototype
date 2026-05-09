@@ -4,10 +4,19 @@ import abilities.Ability;
 import creatures.Creature;
 import creatures.Enemy;
 import creatures.Player;
+import main.Main;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 
 public class Battle {
+
+    //Logging Stuff
+    private static final Logger logger = Logger.getLogger(Battle.class.getName());
 
     Player player;
     Enemy enemy;
@@ -18,7 +27,10 @@ public class Battle {
     Scanner scan = new Scanner(System.in);
     Random random = new Random();
 
-    public Battle(Player player, Enemy enemy) {
+    public Battle(Player player, Enemy enemy) throws IOException {
+        LogManager.getLogManager().readConfiguration(
+                Main.class.getResourceAsStream("/logging.properties")
+        );
         this.player = player;
         this.enemy = enemy;
         fighters[0] = player;
@@ -146,8 +158,7 @@ public class Battle {
             System.out.println("Choose a valid number.");
             abilitySelect();
         } catch (Exception e) {
-            System.out.println("Something else went wrong with the ability selection.");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Something else happened with ability selection.", e);
             abilitySelect();
         }
 
