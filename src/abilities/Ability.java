@@ -8,14 +8,12 @@ public class Ability {
     private String name;
     private String description;
     private int cost;
-    private boolean isOffense;
     private Map<Dice.DieType, Integer> statChanges;
 
     public Ability() {
         name = "Attack";
         description = "A basic attack.";
         cost = 0;
-        isOffense = true;
     }
 
     public Ability(String name, String description, int cost, Map<Dice.DieType, Integer> statChanges) {
