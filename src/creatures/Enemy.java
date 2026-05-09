@@ -1,4 +1,6 @@
-package entity;
+package creatures;
+
+import items.Item;
 
 import java.util.ArrayList;
 

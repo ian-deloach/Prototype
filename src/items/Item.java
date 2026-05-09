@@ -1,4 +1,4 @@
-package entity;
+package items;
 
 public class Item {
 

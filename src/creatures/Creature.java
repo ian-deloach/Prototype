@@ -1,4 +1,7 @@
-package entity;
+package creatures;
+
+import abilities.Ability;
+import entity.Dice;
 
 import java.util.ArrayList;
 import java.util.HashMap;

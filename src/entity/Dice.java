@@ -2,7 +2,7 @@ package entity;
 
 public class Dice {
 
-    enum DieType {
+    public enum DieType {
         ATTACK,
         DEFENSE,
         FOCUS,
@@ -10,7 +10,7 @@ public class Dice {
     }
 
     DieType type;
-    int value;
+    private int value;
 
     // For random dice creation
     public Dice(int randomType, int randomValue) {
@@ -23,4 +23,7 @@ public class Dice {
         this.value = value;
     }
 
+    public int getValue() {
+        return value;
+    }
 }

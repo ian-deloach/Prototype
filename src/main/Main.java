@@ -1,8 +1,8 @@
 package main;
 
 import entity.Battle;
-import entity.Enemy;
-import entity.Player;
+import creatures.Enemy;
+import creatures.Player;
 
 import java.io.IOException;
 

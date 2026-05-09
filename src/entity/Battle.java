@@ -1,9 +1,11 @@
 package entity;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Random;
-import java.util.Scanner;
+import abilities.Ability;
+import creatures.Creature;
+import creatures.Enemy;
+import creatures.Player;
+
+import java.util.*;
 
 public class Battle {
 
@@ -62,7 +64,7 @@ public class Battle {
             if (isPlayerTurn) {
                 displayCombatStats();
                 for (int i = 0; i < draftDice.size(); i++) {
-                    System.out.println(i + "." + draftDice.get(i).type + "\t" + draftDice.get(i).value);
+                    System.out.println(i + "." + draftDice.get(i).type + "\t" + draftDice.get(i).getValue());
                 }
 
                 try {
@@ -96,7 +98,7 @@ public class Battle {
     }
 
     public void alterStats(Creature fighter, Dice selectedDie) {
-        int statChange = selectedDie.value;
+        int statChange = selectedDie.getValue();
         fighter.getStats().put(selectedDie.type,
                 fighter.getStats().get(selectedDie.type) + statChange);
     }
@@ -119,11 +121,13 @@ public class Battle {
         Ability selectedAbility;
         ArrayList<Ability> availableAbilities = new ArrayList<>();
 
+        displayCombatStats();
+
         System.out.println("Available abilities");
         for (Ability ability : player.getAbilities()) {
             if (player.getStats().get(Dice.DieType.FOCUS) >= ability.getCost()) {
                 System.out.println(index + ". " + ability.getName() + "\t"
-                        + ability.getEffect());
+                        + ability.getDescription());
                 availableAbilities.add(ability);
                 index++;
             }
@@ -131,8 +135,13 @@ public class Battle {
 
         try {
             selectedAbility = availableAbilities.get(scan.nextInt());
-            player.getStats().put(Dice.DieType.ATTACK, player.getStats().get(Dice.DieType.ATTACK)
-                    + selectedAbility.getBaseDamage());
+
+            Dice.DieType currentStat;
+            for (Map.Entry<Dice.DieType, Integer> stat : selectedAbility.getStatChanges().entrySet()) {
+                currentStat = stat.getKey();
+                player.getStats().put(currentStat,
+                        player.getStats().get(currentStat) + stat.getValue());
+            }
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Choose a valid number.");
             abilitySelect();
