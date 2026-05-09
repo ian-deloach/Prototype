@@ -5,13 +5,13 @@ import java.util.HashMap;
 
 public class Creature {
 
-    String name;
-    int health;
-    HashMap<Dice.DieType, Integer> baseStats = new HashMap<>();
-    HashMap<Dice.DieType, Integer> stats = new HashMap<>();
-    HashMap<Dice.DieType, Integer> tempStatChanges = new HashMap<>();
-    ArrayList<Dice> selectedDice = new ArrayList<>();
-    ArrayList<Ability> abilities = new ArrayList<>();
+    private String name;
+    private int health;
+    private HashMap<Dice.DieType, Integer> baseStats = new HashMap<>();
+    private HashMap<Dice.DieType, Integer> stats = new HashMap<>();
+    private HashMap<Dice.DieType, Integer> tempStatChanges = new HashMap<>();
+    private ArrayList<Dice> selectedDice = new ArrayList<>();
+    private ArrayList<Ability> abilities = new ArrayList<>();
 
     public Creature() {
         name = "Unknown";
@@ -24,27 +24,59 @@ public class Creature {
         abilities.add(new Ability());
     }
 
-    public class Ability {
-        String name;
-        String effect;
-        int baseDamage;
-        int cost;
-        boolean isOffense;
-
-        public Ability() {
-            name = "Attack";
-            effect = "A basic attack.";
-            cost = 0;
-            isOffense = true;
-        }
-
-        public Ability(String name, String effect, int baseDamage, int cost, boolean isOffense) {
-            this.name = name;
-            this.effect = effect;
-            this.baseDamage = baseDamage;
-            this.cost = cost;
-            this.isOffense = isOffense;
-        }
+    public String getName() {
+        return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public HashMap<Dice.DieType, Integer> getBaseStats() {
+        return baseStats;
+    }
+
+    public void setBaseStats(HashMap<Dice.DieType, Integer> baseStats) {
+        this.baseStats = baseStats;
+    }
+
+    public HashMap<Dice.DieType, Integer> getStats() {
+        return stats;
+    }
+
+    public void setStats(HashMap<Dice.DieType, Integer> stats) {
+        this.stats = stats;
+    }
+
+    public HashMap<Dice.DieType, Integer> getTempStatChanges() {
+        return tempStatChanges;
+    }
+
+    public void setTempStatChanges(HashMap<Dice.DieType, Integer> tempStatChanges) {
+        this.tempStatChanges = tempStatChanges;
+    }
+
+    public ArrayList<Dice> getSelectedDice() {
+        return selectedDice;
+    }
+
+    public void setSelectedDice(ArrayList<Dice> selectedDice) {
+        this.selectedDice = selectedDice;
+    }
+
+    public ArrayList<Ability> getAbilities() {
+        return abilities;
+    }
+
+    public void setAbilities(ArrayList<Ability> abilities) {
+        this.abilities = abilities;
+    }
 }

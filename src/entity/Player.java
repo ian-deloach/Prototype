@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Player extends Creature {
 
-    ArrayList<Item> items;
-    Weapon weapon;
+    private ArrayList<Item> items;
+    private Weapon weapon;
 
     // Basically a test character
     public Player () {
@@ -21,6 +21,22 @@ public class Player extends Creature {
                 true
                 )
         );
+
     }
 
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
 }

@@ -20,7 +20,7 @@ public class Battle {
         this.player = player;
         this.enemy = enemy;
         fighters[0] = player;
-        player.stats.putAll(player.baseStats);
+        player.getstats.putAll(player.baseStats);
         fighters[1] = enemy;
         enemy.stats.putAll(enemy.baseStats);
     }
@@ -60,10 +60,10 @@ public class Battle {
 
         while (!draftDice.isEmpty()) {
             if (isPlayerTurn) {
+                displayCombatStats();
                 for (int i = 0; i < draftDice.size(); i++) {
                     System.out.println(i + "." + draftDice.get(i).type + "\t" + draftDice.get(i).value);
                 }
-                displayCombatStats();
 
                 try {
                     playerChoice = scan.nextInt();
@@ -116,20 +116,29 @@ public class Battle {
 
     public void abilitySelect() {
         int index = 0;
-        ArrayList<Creature.Ability> availableAbilities = new ArrayList<>();
+        Ability selectedAbility;
+        ArrayList<Ability> availableAbilities = new ArrayList<>();
 
         System.out.println("Available abilities");
-        for (Creature.Ability ability : player.abilities) {
-            if (player.stats.get(Dice.DieType.FOCUS) >= ability.cost) {
-                System.out.println(index + ". " + ability.name + "\t"
-                        + ability.effect);
+        for (Ability ability : player.abilities) {
+            if (player.stats.get(Dice.DieType.FOCUS) >= ability.getCost()) {
+                System.out.println(index + ". " + ability.getName() + "\t"
+                        + ability.getEffect());
                 availableAbilities.add(ability);
                 index++;
             }
         }
-        // Make try catch block for selecting ability
-        // Right now it doesn't actually do anything
-        scan.nextInt();
+
+        try {
+            selectedAbility = availableAbilities.get(scan.nextInt());
+            player.stats.put(Dice.DieType.ATTACK, player.stats.get(Dice.DieType.ATTACK)
+                    + selectedAbility.getBaseDamage());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Choose a valid number.");
+            abilitySelect();
+        } catch (Exception e) {
+            System.out.println("Something else went wrong with the weapon selection.");
+        }
 
 
     }
@@ -137,6 +146,7 @@ public class Battle {
     // The round ends, and damage is dealt
     public void attack() {
         abilitySelect();
+        displayCombatStats();
         if (player.stats.get(Dice.DieType.ATTACK) > enemy.stats.get(Dice.DieType.DEFENSE)) {
             enemy.health -= 1;
             System.out.println("Enemy hit! Lives left: " + enemy.health);
