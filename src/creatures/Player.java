@@ -1,6 +1,6 @@
 package creatures;
 
-import abilities.Ability;
+import abilities.*;
 import entity.Dice;
 import items.Item;
 import items.Weapon;
@@ -20,33 +20,8 @@ public class Player extends Creature {
         setName("Ian");
         items = new ArrayList<>();
         weapon = new Weapon(); // Unarmed
-
-        getAbilities().add(new Ability(
-                "Big attack",
-                "Take some extra time to hit harder.",
-                3,
-                Map.of(Dice.DieType.ATTACK, 5)
-                )
-        );
-
-        getAbilities().add(new Ability(
-                "Defend",
-                "Protect yourself",
-                0,
-                Map.of(Dice.DieType.DEFENSE, 3)
-                )
-        );
-
-        getAbilities().add(new Ability(
-                "Test",
-                "Add 1 attack. 2 Defend. 3 Focus. 4 Speed.",
-                0,
-                Map.of(Dice.DieType.ATTACK, 1,
-                        Dice.DieType.DEFENSE,2,
-                        Dice.DieType.FOCUS, 3,
-                        Dice.DieType.SPEED, 4)
-        ));
-
+        // Always start with basic attack and defend
+        getAbilities().add(AbilityLibrary.defend());
     }
 
     public ArrayList<Item> getItems() {

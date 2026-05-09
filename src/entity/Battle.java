@@ -135,7 +135,7 @@ public class Battle {
 
         try {
             selectedAbility = availableAbilities.get(scan.nextInt());
-
+            selectedAbility.useAbility(player, enemy);
             Dice.DieType currentStat;
             for (Map.Entry<Dice.DieType, Integer> stat : selectedAbility.getStatChanges().entrySet()) {
                 currentStat = stat.getKey();
@@ -146,7 +146,9 @@ public class Battle {
             System.out.println("Choose a valid number.");
             abilitySelect();
         } catch (Exception e) {
-            System.out.println("Something else went wrong with the weapon selection.");
+            System.out.println("Something else went wrong with the ability selection.");
+            e.printStackTrace();
+            abilitySelect();
         }
 
 
@@ -156,27 +158,6 @@ public class Battle {
     public void attack() {
         abilitySelect();
         displayCombatStats();
-        if (player.getStats().get(Dice.DieType.ATTACK) > enemy.getStats().get(Dice.DieType.DEFENSE)) {
-            enemy.setHealth(enemy.getHealth() - 1);
-            System.out.println("Enemy hit! Lives left: " + enemy.getHealth());
-            System.out.println("Enemy Defense " + enemy.getStats().get(Dice.DieType.DEFENSE)
-                        + " < Player Attack  " + player.getStats().get(Dice.DieType.ATTACK));
-        } else {
-            System.out.println("Enemy blocked!");
-            System.out.println("Enemy Defense " + enemy.getStats().get(Dice.DieType.DEFENSE)
-                        + " >= Player Attack " + player.getStats().get(Dice.DieType.ATTACK));
-        }
-
-        if (enemy.getStats().get(Dice.DieType.ATTACK) > player.getStats().get(Dice.DieType.DEFENSE)) {
-            player.setHealth(player.getHealth() - 1);
-            System.out.println("Player hit! Lives left: " + player.getHealth());
-            System.out.println("Player Defense " + player.getStats().get(Dice.DieType.DEFENSE)
-                        + " < Enemy Attack " + enemy.getStats().get(Dice.DieType.ATTACK));
-        } else {
-            System.out.println("Player blocked!");
-            System.out.println("Player Defense " + player.getStats().get(Dice.DieType.DEFENSE)
-                        + " >= Enemy Attack " + enemy.getStats().get(Dice.DieType.ATTACK));
-        }
 
         // Reset fighters for the next drafting round
         player.getSelectedDice().clear();
