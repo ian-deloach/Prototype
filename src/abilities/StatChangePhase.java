@@ -5,11 +5,11 @@ import entity.Dice;
 
 import java.util.Map;
 
-public class StatChangeStep implements AbilityStep {
+public class StatChangePhase implements AbilityPhase {
 
     private Map<Dice.DieType, Integer> changes;
 
-    public StatChangeStep(Map<Dice.DieType, Integer> changes) {
+    public StatChangePhase(Map<Dice.DieType, Integer> changes) {
         this.changes = changes;
     }
 

@@ -148,12 +148,6 @@ public class Battle {
         try {
             selectedAbility = availableAbilities.get(scan.nextInt());
             selectedAbility.useAbility(player, enemy);
-            Dice.DieType currentStat;
-            for (Map.Entry<Dice.DieType, Integer> stat : selectedAbility.getStatChanges().entrySet()) {
-                currentStat = stat.getKey();
-                player.getStats().put(currentStat,
-                        player.getStats().get(currentStat) + stat.getValue());
-            }
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Choose a valid number.");
             abilitySelect();

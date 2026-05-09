@@ -22,6 +22,7 @@ public class Player extends Creature {
         weapon = new Weapon(); // Unarmed
         // Always start with basic attack and defend
         getAbilities().add(AbilityLibrary.defend());
+        getAbilities().add(AbilityLibrary.bigAttack());
     }
 
     public ArrayList<Item> getItems() {

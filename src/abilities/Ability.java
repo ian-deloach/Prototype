@@ -11,8 +11,7 @@ public class Ability {
     private String name;
     private String description;
     private int cost;
-    private Map<Dice.DieType, Integer> statChanges;
-    private List<AbilityStep> steps;
+    private List<AbilityPhase> phases;
     protected Creature user;
     protected Creature target;
 
@@ -20,18 +19,21 @@ public class Ability {
         name = "Basic attack";
         description = "Hit the opponent.";
         cost = 0;
+        phases = List.of(
+                new DamagePhase()
+        );
     }
 
-    public Ability(String name, String description, int cost, List<AbilityStep> steps) {
+    public Ability(String name, String description, int cost, List<AbilityPhase> phases) {
         this.name = name;
         this.description = description;
         this.cost = cost;
-        this.steps = steps;
+        this.phases = phases;
     }
 
     public void useAbility(Creature user, Creature target) {
-        for (AbilityStep step : steps) {
-            step.apply(user, target);
+        for (AbilityPhase phase : phases) {
+            phase.apply(user, target);
         }
     }
 
@@ -50,10 +52,6 @@ public class Ability {
 
     public int getCost() {
         return cost;
-    }
-
-    public Map<Dice.DieType, Integer> getStatChanges() {
-        return statChanges;
     }
 
 }

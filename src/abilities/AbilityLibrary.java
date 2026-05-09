@@ -17,10 +17,10 @@ public class AbilityLibrary extends Ability {
                 "Take some extra time to hit harder.",
                 3,
                 List.of(
-                        new StatChangeStep(
+                        new StatChangePhase(
                                 Map.of(Dice.DieType.ATTACK, 3)
                         ),
-                        new DamageStep()
+                        new DamagePhase()
                 )
         );
     }
@@ -31,7 +31,7 @@ public class AbilityLibrary extends Ability {
                 "Protect yourself.",
                 0,
                 List.of(
-                        new StatChangeStep(
+                        new StatChangePhase(
                                 Map.of(Dice.DieType.DEFENSE, 3)
                         )
                 )

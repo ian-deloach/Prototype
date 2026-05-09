@@ -111,7 +111,7 @@ use the SDK from your secure network.
 You are responsible for the compliance with the terms of this
 Agreement by your authorized users. If you become aware that
 your authorized users didn’t follow the terms of this
-Agreement, you agree to take reasonable steps to resolve the
+Agreement, you agree to take reasonable Phases to resolve the
 non-compliance and prevent new occurrences.
 
 

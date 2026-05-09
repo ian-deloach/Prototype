@@ -2,6 +2,6 @@ package abilities;
 
 import creatures.Creature;
 
-public interface AbilityStep {
+public interface AbilityPhase {
     public void apply(Creature player, Creature enemy);
 }
