@@ -10,10 +10,10 @@ public class Player extends Creature {
     // Basically a test character
     public Player () {
         super();
-        this.name = "ian";
+        setName("Ian");
         items = new ArrayList<>();
         weapon = new Weapon(); // Unarmed
-        abilities.add(new Ability(
+        getAbilities().add(new Ability(
                 "Big attack",
                 "Take some extra time to hit harder.",
                 5,

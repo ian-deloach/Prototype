@@ -8,7 +8,7 @@ public class Enemy extends Creature {
 
     public Enemy() {
         super();
-        this.name = "test dummy";
+        setName("Dummy");
     }
 
 }

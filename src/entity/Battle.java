@@ -20,18 +20,18 @@ public class Battle {
         this.player = player;
         this.enemy = enemy;
         fighters[0] = player;
-        player.getstats.putAll(player.baseStats);
+        player.getStats().putAll(player.getBaseStats());
         fighters[1] = enemy;
-        enemy.stats.putAll(enemy.baseStats);
+        enemy.getStats().putAll(enemy.getBaseStats());
     }
 
     public void runBattle() {
 
-        while (player.health > 0 && enemy.health > 0) {
+        while (player.getHealth() > 0 && enemy.getHealth() > 0) {
             startRound();
         }
 
-        if (player.health <= 0) {
+        if (player.getHealth() <= 0) {
             System.out.println("Player died.");
         } else {
             System.out.println("Enemy died.");
@@ -76,7 +76,7 @@ public class Battle {
 
             try {
                 alterStats(player, draftDice.get(playerChoice));
-                player.selectedDice.add(draftDice.remove(playerChoice));
+                player.getSelectedDice().add(draftDice.remove(playerChoice));
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Choose a valid number");
                 draftPeriod();
@@ -84,7 +84,7 @@ public class Battle {
             // TODO implement enemy attack logic
             try {
                 alterStats(enemy, draftDice.get(0));
-                enemy.selectedDice.add(draftDice.remove(0));
+                enemy.getSelectedDice().add(draftDice.remove(0));
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("What");
             }
@@ -97,18 +97,18 @@ public class Battle {
 
     public void alterStats(Creature fighter, Dice selectedDie) {
         int statChange = selectedDie.value;
-        fighter.stats.put(selectedDie.type,
-                fighter.stats.get(selectedDie.type) + statChange);
+        fighter.getStats().put(selectedDie.type,
+                fighter.getStats().get(selectedDie.type) + statChange);
     }
 
     public void displayCombatStats() {
         System.out.println("--------------------------------------------------");
         for (Creature fighter : fighters) {
-            System.out.println(fighter.name
-                    + "\nAttack\t" + fighter.stats.get(Dice.DieType.ATTACK)
-                    + "\nDefense\t" + fighter.stats.get(Dice.DieType.DEFENSE)
-                    + "\nFocus\t" + fighter.stats.get(Dice.DieType.FOCUS)
-                    + "\nSpeed\t" + fighter.stats.get(Dice.DieType.SPEED));
+            System.out.println(fighter.getName()
+                    + "\nAttack\t" + fighter.getStats().get(Dice.DieType.ATTACK)
+                    + "\nDefense\t" + fighter.getStats().get(Dice.DieType.DEFENSE)
+                    + "\nFocus\t" + fighter.getStats().get(Dice.DieType.FOCUS)
+                    + "\nSpeed\t" + fighter.getStats().get(Dice.DieType.SPEED));
             System.out.println("--------------------------------------------------\n");
         }
 
@@ -120,8 +120,8 @@ public class Battle {
         ArrayList<Ability> availableAbilities = new ArrayList<>();
 
         System.out.println("Available abilities");
-        for (Ability ability : player.abilities) {
-            if (player.stats.get(Dice.DieType.FOCUS) >= ability.getCost()) {
+        for (Ability ability : player.getAbilities()) {
+            if (player.getStats().get(Dice.DieType.FOCUS) >= ability.getCost()) {
                 System.out.println(index + ". " + ability.getName() + "\t"
                         + ability.getEffect());
                 availableAbilities.add(ability);
@@ -131,7 +131,7 @@ public class Battle {
 
         try {
             selectedAbility = availableAbilities.get(scan.nextInt());
-            player.stats.put(Dice.DieType.ATTACK, player.stats.get(Dice.DieType.ATTACK)
+            player.getStats().put(Dice.DieType.ATTACK, player.getStats().get(Dice.DieType.ATTACK)
                     + selectedAbility.getBaseDamage());
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Choose a valid number.");
@@ -147,33 +147,33 @@ public class Battle {
     public void attack() {
         abilitySelect();
         displayCombatStats();
-        if (player.stats.get(Dice.DieType.ATTACK) > enemy.stats.get(Dice.DieType.DEFENSE)) {
-            enemy.health -= 1;
-            System.out.println("Enemy hit! Lives left: " + enemy.health);
-            System.out.println("Enemy Defense " + enemy.stats.get(Dice.DieType.DEFENSE)
-                        + " < Player Attack  " + player.stats.get(Dice.DieType.ATTACK));
+        if (player.getStats().get(Dice.DieType.ATTACK) > enemy.getStats().get(Dice.DieType.DEFENSE)) {
+            enemy.setHealth(enemy.getHealth() - 1);
+            System.out.println("Enemy hit! Lives left: " + enemy.getHealth());
+            System.out.println("Enemy Defense " + enemy.getStats().get(Dice.DieType.DEFENSE)
+                        + " < Player Attack  " + player.getStats().get(Dice.DieType.ATTACK));
         } else {
             System.out.println("Enemy blocked!");
-            System.out.println("Enemy Defense " + enemy.stats.get(Dice.DieType.DEFENSE)
-                        + " >= Player Attack " + player.stats.get(Dice.DieType.ATTACK));
+            System.out.println("Enemy Defense " + enemy.getStats().get(Dice.DieType.DEFENSE)
+                        + " >= Player Attack " + player.getStats().get(Dice.DieType.ATTACK));
         }
 
-        if (enemy.stats.get(Dice.DieType.ATTACK) > player.stats.get(Dice.DieType.DEFENSE)) {
-            player.health -= 1;
-            System.out.println("Player hit! Lives left: " + player.health);
-            System.out.println("Player Defense " + player.stats.get(Dice.DieType.DEFENSE)
-                        + " < Enemy Attack " + enemy.stats.get(Dice.DieType.ATTACK));
+        if (enemy.getStats().get(Dice.DieType.ATTACK) > player.getStats().get(Dice.DieType.DEFENSE)) {
+            player.setHealth(player.getHealth() - 1);
+            System.out.println("Player hit! Lives left: " + player.getHealth());
+            System.out.println("Player Defense " + player.getStats().get(Dice.DieType.DEFENSE)
+                        + " < Enemy Attack " + enemy.getStats().get(Dice.DieType.ATTACK));
         } else {
             System.out.println("Player blocked!");
-            System.out.println("Player Defense " + player.stats.get(Dice.DieType.DEFENSE)
-                        + " >= Enemy Attack " + enemy.stats.get(Dice.DieType.ATTACK));
+            System.out.println("Player Defense " + player.getStats().get(Dice.DieType.DEFENSE)
+                        + " >= Enemy Attack " + enemy.getStats().get(Dice.DieType.ATTACK));
         }
 
         // Reset fighters for the next drafting round
-        player.selectedDice.clear();
-        player.stats.putAll(player.baseStats);
-        enemy.selectedDice.clear();
-        enemy.stats.putAll(enemy.baseStats);
+        player.getSelectedDice().clear();
+        player.getStats().putAll(player.getBaseStats());
+        enemy.getSelectedDice().clear();
+        enemy.getStats().putAll(enemy.getBaseStats());
 
     }
 
