@@ -12,7 +12,7 @@ public class Creature {
     private int health;
     private HashMap<Dice.DieType, Integer> baseStats = new HashMap<>();
     private HashMap<Dice.DieType, Integer> stats = new HashMap<>();
-    private HashMap<Dice.DieType, Integer> tempStatChanges = new HashMap<>();
+    private HashMap<Dice.DieType, Integer> preparedStatChanges = new HashMap<>();
     private ArrayList<Dice> selectedDice = new ArrayList<>();
     private ArrayList<Ability> abilities = new ArrayList<>();
 
@@ -59,12 +59,12 @@ public class Creature {
         this.stats = stats;
     }
 
-    public HashMap<Dice.DieType, Integer> getTempStatChanges() {
-        return tempStatChanges;
+    public HashMap<Dice.DieType, Integer> getPreparedStatChanges() {
+        return preparedStatChanges;
     }
 
-    public void setTempStatChanges(HashMap<Dice.DieType, Integer> tempStatChanges) {
-        this.tempStatChanges = tempStatChanges;
+    public void setPreparedStatChanges(HashMap<Dice.DieType, Integer> preparedStatChanges) {
+        this.preparedStatChanges = preparedStatChanges;
     }
 
     public ArrayList<Dice> getSelectedDice() {

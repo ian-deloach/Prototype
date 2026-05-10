@@ -14,12 +14,12 @@ public class StatChangePhase implements AbilityPhase {
     }
 
     @Override
-    public void apply(Creature player, Creature enemy) {
+    public void apply(Creature user, Creature target) {
         Dice.DieType currentStat;
         for (Map.Entry<Dice.DieType, Integer> stat : changes.entrySet()) {
             currentStat = stat.getKey();
-            player.getStats().put(currentStat,
-                    player.getStats().get(currentStat) + stat.getValue());
+            user.getStats().put(currentStat,
+                    target.getStats().get(currentStat) + stat.getValue());
         }
     }
 }

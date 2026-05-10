@@ -31,7 +31,6 @@ public class Battle {
         LogManager.getLogManager().readConfiguration(
                 Main.class.getResourceAsStream("/logging.properties")
         );
-        logger.info("hello");
         this.player = player;
         this.enemy = enemy;
         fighters[0] = player;
@@ -47,6 +46,19 @@ public class Battle {
 
     // Resets the available dice at the beginning of the round
     public void startRound() {
+        createDraftDie();
+        applyPreparedStats();
+        draftPeriod();
+    }
+
+    public void applyPreparedStats() {
+        player.getStats().putAll(player.getPreparedStatChanges());
+        player.getPreparedStatChanges().clear();
+        enemy.getStats().putAll(enemy.getPreparedStatChanges());
+        enemy.getPreparedStatChanges().clear();
+    }
+
+    public void createDraftDie() {
         draftDice.clear();
         for (int i = 0; i < 6; i++) {
             draftDice.add(new Dice(
@@ -54,10 +66,8 @@ public class Battle {
                     random.nextInt(6) + 1
             ));
         }
-
         System.out.println("Draft size: " + draftDice.size());
         System.out.println("--------------------------------------------------");
-        draftPeriod();
     }
 
     // Where the player and enemy pick dice

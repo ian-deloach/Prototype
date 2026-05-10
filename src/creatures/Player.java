@@ -23,6 +23,7 @@ public class Player extends Creature {
         // Always start with basic attack and defend
         getAbilities().add(AbilityLibrary.defend());
         getAbilities().add(AbilityLibrary.bigAttack());
+        getAbilities().add(AbilityLibrary.prepare());
     }
 
     public ArrayList<Item> getItems() {
