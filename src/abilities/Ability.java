@@ -1,11 +1,10 @@
 package abilities;
 
 import creatures.Creature;
-import entity.Dice;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+// How the fighters will interact with themselves and with each other.
 
 public class Ability {
     private String name;

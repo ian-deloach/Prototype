@@ -5,6 +5,7 @@ import entity.Dice;
 
 import java.util.Map;
 
+// Stat changes that happen during a round.
 public class StatChangePhase implements AbilityPhase {
 
     private Map<Dice.DieType, Integer> changes;

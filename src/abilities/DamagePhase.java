@@ -3,6 +3,8 @@ package abilities;
 import creatures.Creature;
 import entity.Dice;
 
+// Attacks.
+
 public class DamagePhase implements AbilityPhase {
     @Override
     public void apply(Creature user, Creature target) {

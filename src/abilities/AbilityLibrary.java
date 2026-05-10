@@ -5,6 +5,8 @@ import entity.Dice;
 import java.util.List;
 import java.util.Map;
 
+// Holds all abilities in the game and their data.
+
 public class AbilityLibrary extends Ability {
 
     public static Ability attack() {

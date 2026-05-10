@@ -44,7 +44,7 @@ public class Battle {
         startRound();
     }
 
-    // Resets the available dice at the beginning of the round
+    // Resets and prepares the dice/fighters for the next round.
     public void startRound() {
         createDraftDie();
         applyPreparedStats();
@@ -58,6 +58,7 @@ public class Battle {
         enemy.getPreparedStatChanges().clear();
     }
 
+    // Creates 6 random dice with random types and values.
     public void createDraftDie() {
         draftDice.clear();
         for (int i = 0; i < 6; i++) {
@@ -70,7 +71,7 @@ public class Battle {
         System.out.println("--------------------------------------------------");
     }
 
-    // Where the player and enemy pick dice
+    // The player and the enemy both select their dice here.
     public void draftPeriod() {
 
         int playerChoice = 0;
@@ -183,7 +184,7 @@ public class Battle {
     public void endBattle() {
         if (player.getHealth() <= 0) {
             System.out.println("Player has died...");
-            return;
+            System.exit(0);
         }
 
         System.out.println("You win!");
