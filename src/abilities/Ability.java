@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class Ability {
     private String name;
-    private String description;
-    private int cost;
-    private List<AbilityPhase> phases;
+    private final String description;
+    private final int cost;
+    private final List<AbilityPhase> phases;
     protected Creature user;
     protected Creature target;
 

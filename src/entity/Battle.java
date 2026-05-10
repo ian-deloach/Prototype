@@ -31,6 +31,7 @@ public class Battle {
         LogManager.getLogManager().readConfiguration(
                 Main.class.getResourceAsStream("/logging.properties")
         );
+        logger.info("hello");
         this.player = player;
         this.enemy = enemy;
         fighters[0] = player;
@@ -39,17 +40,9 @@ public class Battle {
         enemy.getStats().putAll(enemy.getBaseStats());
     }
 
+    // Starts the fight. Pre-round stuff should be done here in the future.
     public void runBattle() {
-
-        while (player.getHealth() > 0 && enemy.getHealth() > 0) {
-            startRound();
-        }
-
-        if (player.getHealth() <= 0) {
-            System.out.println("Player died.");
-        } else {
-            System.out.println("Enemy died.");
-        }
+        startRound();
     }
 
     // Resets the available dice at the beginning of the round
@@ -122,7 +115,8 @@ public class Battle {
                     + "\nAttack\t" + fighter.getStats().get(Dice.DieType.ATTACK)
                     + "\nDefense\t" + fighter.getStats().get(Dice.DieType.DEFENSE)
                     + "\nFocus\t" + fighter.getStats().get(Dice.DieType.FOCUS)
-                    + "\nSpeed\t" + fighter.getStats().get(Dice.DieType.SPEED));
+                    + "\nSpeed\t" + fighter.getStats().get(Dice.DieType.SPEED)
+                    + "\nHealth\t" + fighter.getHealth());
             System.out.println("--------------------------------------------------\n");
         }
 
@@ -163,13 +157,27 @@ public class Battle {
     public void attack() {
         abilitySelect();
         displayCombatStats();
+        endRound();
+        if ((player.getHealth() > 0) && enemy.getHealth() > 0) {startRound();}
+        else {endBattle();};
+    }
 
+    public void endRound() {
         // Reset fighters for the next drafting round
         player.getSelectedDice().clear();
         player.getStats().putAll(player.getBaseStats());
         enemy.getSelectedDice().clear();
         enemy.getStats().putAll(enemy.getBaseStats());
+    }
 
+    public void endBattle() {
+        if (player.getHealth() <= 0) {
+            System.out.println("Player has died...");
+            return;
+        }
+
+        System.out.println("You win!");
+        System.exit(0);
     }
 
 }

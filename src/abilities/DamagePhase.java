@@ -11,6 +11,9 @@ public class DamagePhase implements AbilityPhase {
             System.out.println(target.getName() + " took 1 damage!");
             System.out.println("Defense: " + target.getStats().get(Dice.DieType.DEFENSE)
                     + " Attack: " + user.getStats().get(Dice.DieType.ATTACK));
+
+            target.setHealth(target.getHealth() - 1);
+
         } else {
             System.out.println(target.getName() + " blocked!");
             System.out.println("Defense: " + target.getStats().get(Dice.DieType.DEFENSE)
