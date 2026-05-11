@@ -1,48 +1,43 @@
 package main;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import entity.Battle;
 import creatures.Enemy;
 import creatures.Player;
-
-import java.io.FileInputStream;
+import screens.BattleScreen;
 import java.io.IOException;
-import java.util.logging.LogManager;
 
-public class Main extends ApplicationAdapter {
+public class Main extends Game {
 
-    public static void main(String[] args) throws IOException {
-        Player player = new Player();
-        Enemy enemy = new Enemy();
-        Battle battle = new Battle(player, enemy);
-        Main main = new Main();
-
-        battle.runBattle();
-
-    }
-    private SpriteBatch batch;
-    private Texture image;
+    public FitViewport viewport;
+    public BitmapFont font;
+    public SpriteBatch batch;
 
     @Override
     public void create() {
+        viewport = new FitViewport(800, 600);
+        font = new BitmapFont();
         batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
+
+        font.setUseIntegerPositions(false);
+        font.getData().setScale(viewport.getWorldHeight() / Gdx.graphics.getHeight());
+
+        this.setScreen(new BattleScreen(this));
     }
 
-    @Override
     public void render() {
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-        batch.begin();
-        batch.draw(image, 140, 210);
-        batch.end();
+        super.render();
     }
 
-    @Override
     public void dispose() {
         batch.dispose();
-        image.dispose();
+        font.dispose();
     }
+
+
 }
