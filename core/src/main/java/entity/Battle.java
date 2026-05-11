@@ -26,7 +26,8 @@ public class Battle {
     ArrayList<Dice> draftDice = new ArrayList<>();
     InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("logging.properties");
 
-    Scanner scan = new Scanner(System.in);
+    // TODO Replace Scanner
+//    Scanner scan = new Scanner(System.in);
     Random random = new Random();
 
     public Battle(Player player, Enemy enemy) throws IOException {
@@ -83,12 +84,19 @@ public class Battle {
                     System.out.println(i + "." + draftDice.get(i).type + "\t" + draftDice.get(i).getValue());
                 }
 
+                //TODO Remove this. It only exits the app so it doesn't loop while I fix things.
+                System.exit(0);
+
                 try {
-                    playerChoice = scan.nextInt();
+                    // TODO Replace Scanner
+//                    playerChoice = scan.nextInt();
                 } catch (InputMismatchException e) {
                     System.out.println("Please input an integer");
-                    scan.next();
+                    // TODO Replace Scanner
+//                    scan.next();
                     draftPeriod();
+                } catch (Exception e) {
+                    logger.log(Level.SEVERE, "Something else happened with drafting period", e);
                 }
             }
 
@@ -151,8 +159,9 @@ public class Battle {
         }
 
         try {
-            selectedAbility = availableAbilities.get(scan.nextInt());
-            selectedAbility.useAbility(player, enemy);
+            // TODO Replace Scanner
+//            selectedAbility = availableAbilities.get(scan.nextInt());
+//            selectedAbility.useAbility(player, enemy);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Choose a valid number.");
             abilitySelect();

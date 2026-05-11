@@ -18,6 +18,7 @@ public class Main extends ApplicationAdapter {
         Player player = new Player();
         Enemy enemy = new Enemy();
         Battle battle = new Battle(player, enemy);
+        Main main = new Main();
 
         battle.runBattle();
 
