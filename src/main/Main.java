@@ -14,10 +14,8 @@ public class Main {
         Player player = new Player();
         Enemy enemy = new Enemy();
         Battle battle = new Battle(player, enemy);
-        GameScreen screen = new GameScreen();
 
         battle.runBattle();
-//        screen.createFrame();
 
     }
 }
