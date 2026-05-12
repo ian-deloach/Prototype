@@ -43,13 +43,13 @@ public class AbilityLibrary extends Ability {
     public static Ability prepare() {
         return new Ability(
                 "Prepare",
-                "Set yourself for the next turn. +2 Attack +2 Focus.",
+                "Set yourself for the next turn. +2 Attack +2 Energy.",
                 0,
                 List.of(
                         new PreparationPhase(
                                 Map.of(
                                         Dice.DieType.ATTACK, 2,
-                                        Dice.DieType.FOCUS, 2
+                                        Dice.DieType.ENERGY, 2
                                 )
                         )
                 )

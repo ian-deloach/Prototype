@@ -21,7 +21,7 @@ public class Creature {
         health = 3;
         baseStats.put(Dice.DieType.ATTACK, 0);
         baseStats.put(Dice.DieType.DEFENSE, 0);
-        baseStats.put(Dice.DieType.FOCUS, 0);
+        baseStats.put(Dice.DieType.ENERGY, 0);
         baseStats.put(Dice.DieType.SPEED, 0);
         // Each creature starts with a basic attack
         abilities.add(new Ability());

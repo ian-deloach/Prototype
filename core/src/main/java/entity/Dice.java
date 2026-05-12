@@ -5,7 +5,7 @@ public class Dice {
     public enum DieType {
         ATTACK,
         DEFENSE,
-        FOCUS,
+        ENERGY,
         SPEED
     }
 

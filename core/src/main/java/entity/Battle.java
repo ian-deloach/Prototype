@@ -133,7 +133,7 @@ public class Battle {
             System.out.println(fighter.getName()
                     + "\nAttack\t" + fighter.getStats().get(Dice.DieType.ATTACK)
                     + "\nDefense\t" + fighter.getStats().get(Dice.DieType.DEFENSE)
-                    + "\nFocus\t" + fighter.getStats().get(Dice.DieType.FOCUS)
+                    + "\nEnergy\t" + fighter.getStats().get(Dice.DieType.ENERGY)
                     + "\nSpeed\t" + fighter.getStats().get(Dice.DieType.SPEED)
                     + "\nHealth\t" + fighter.getHealth());
             System.out.println("--------------------------------------------------\n");
@@ -150,7 +150,7 @@ public class Battle {
 
         System.out.println("Available abilities");
         for (Ability ability : player.getAbilities()) {
-            if (player.getStats().get(Dice.DieType.FOCUS) >= ability.getCost()) {
+            if (player.getStats().get(Dice.DieType.ENERGY) >= ability.getCost()) {
                 System.out.println(index + ". " + ability.getName() + "\t"
                         + ability.getDescription());
                 availableAbilities.add(ability);
