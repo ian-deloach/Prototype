@@ -15,12 +15,12 @@ import java.io.IOException;
 public class Main extends Game {
 
     public BitmapFont font;
-    public SpriteBatch batch;
+    public SpriteBatch spriteBatch;
 
     @Override
     public void create() {
         font = new BitmapFont();
-        batch = new SpriteBatch();
+        spriteBatch = new SpriteBatch();
         font.setUseIntegerPositions(false);
         this.setScreen(new BattleScreen(this));
     }
@@ -35,7 +35,7 @@ public class Main extends Game {
     }
 
     public void dispose() {
-        batch.dispose();
+        spriteBatch.dispose();
         font.dispose();
     }
 

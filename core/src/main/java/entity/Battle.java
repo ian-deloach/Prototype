@@ -49,7 +49,7 @@ public class Battle {
     public void startRound() {
         createDraftDie();
         applyPreparedStats();
-        draftPeriod();
+//        draftPeriod();
     }
 
     public void applyPreparedStats() {
@@ -70,6 +70,7 @@ public class Battle {
         }
         System.out.println("Draft size: " + draftDice.size());
         System.out.println("--------------------------------------------------");
+
     }
 
     // The player and the enemy both select their dice here.
@@ -85,7 +86,7 @@ public class Battle {
                 }
 
                 //TODO Remove this. It only exits the app so it doesn't loop while I fix things.
-                System.exit(0);
+//                System.exit(0);
 
                 try {
                     // TODO Replace Scanner
@@ -200,4 +201,19 @@ public class Battle {
         System.exit(0);
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Enemy getEnemy() {
+        return enemy;
+    }
+
+    public ArrayList<Dice> getDraftDice() {
+        return draftDice;
+    }
+
+    public Creature[] getFighters() {
+        return fighters;
+    }
 }

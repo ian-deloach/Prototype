@@ -1,5 +1,6 @@
 package screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,9 +19,10 @@ public class BattleScreen implements Screen {
 
     final Main game;
     private FitViewport viewport;
-    private ShapeRenderer shape;
+    private ShapeRenderer shapeRend;
     private OrthographicCamera camera;
     private Texture sampleD6;
+    Battle battle;
 
     public BattleScreen(final Main game) {
         this.game = game;
@@ -33,7 +35,6 @@ public class BattleScreen implements Screen {
     public void setUpBattle() {
         Player player = new Player();
         Enemy enemy = new Enemy();
-        Battle battle = null;
         try {
             battle = new Battle(player, enemy);
         } catch (IOException e) {
@@ -42,45 +43,74 @@ public class BattleScreen implements Screen {
         battle.runBattle();
     }
 
-    public void setUpRectangles() {
-        shape.setProjectionMatrix(viewport.getCamera().combined);
-        shape.begin(ShapeRenderer.ShapeType.Line);
-        shape.setColor(Color.WHITE);
+    // For helping with screen creation
+    public void makeGrid() {
+        Gdx.gl.glLineWidth(1f);
+        shapeRend.begin(ShapeRenderer.ShapeType.Line);
+        shapeRend.setColor(Color.GRAY);
+        // Vertical lines
+        int xCord = 0;
+        while (xCord < 800) {
+            shapeRend.line(xCord, 0, xCord, 600);
+            //Change this value make lines appear at every x value
+            xCord += 100;
+        }
+
+        int yCord = 0;
+        while (yCord < 600) {
+            shapeRend.line(0, yCord, 800, yCord);
+            yCord += 100;
+        }
+
+        shapeRend.rect(1, 1, 799, 599);
+
+        shapeRend.end();
+    }
+
+    public void makePlayerStats() {
+        shapeRend.begin(ShapeRenderer.ShapeType.Line);
+        shapeRend.setColor(Color.SKY);
+        shapeRend.rect(50, 450, 300, 100);
+        shapeRend.end();
+
+        game.spriteBatch.begin();
+        game.font.draw(game.spriteBatch, battle.getPlayer().getName(), 50, 570);
+        game.spriteBatch.end();
+    }
+
+    public void makeRectangles() {
+        shapeRend.begin(ShapeRenderer.ShapeType.Line);
+        shapeRend.setColor(Color.WHITE);
         // Put rectangle at 200x 200y with the last two being the size in pixels
-        shape.rect(200, 200, 10,10);
-        shape.end();
+        shapeRend.rect(200, 200, 100,10);
+        shapeRend.end();
     }
 
     @Override
     public void show() {
-        shape = new ShapeRenderer();
+        setUpBattle();
+        shapeRend = new ShapeRenderer();
         sampleD6 = new Texture("sampleD6.png");
     }
 
     @Override
     public void render(float v) {
         ScreenUtils.clear(Color.BLACK);
-
+        game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+        shapeRend.setProjectionMatrix(viewport.getCamera().combined);
         viewport.apply();
-        setUpRectangles();
-
-        game.batch.setProjectionMatrix(viewport.getCamera().combined);
-        shape.setProjectionMatrix(viewport.getCamera().combined);
-        shape.begin(ShapeRenderer.ShapeType.Line);
-        shape.setColor(Color.RED);
-
-        // Border around the viewport
-        shape.rect(1, 1, 799, 599);
-
-        shape.end();
+        // makeGrid() should go FIRST so everything else is rendered on top
+        makeGrid();
+        makeRectangles();
+        makePlayerStats();
 
         // Draw text in corners
-        game.batch.setProjectionMatrix(viewport.getCamera().combined);
-        game.batch.begin();
-        game.font.draw(game.batch, "battle screen", 300, 300);
-        game.batch.draw(sampleD6, 100, 100, 12, 12);
+        game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+        game.spriteBatch.begin();
+        game.font.draw(game.spriteBatch, "battle screen", 300, 300);
+        game.spriteBatch.draw(sampleD6, 100, 100, 16, 16);
 
-        game.batch.end();
+        game.spriteBatch.end();
     }
 
     @Override
@@ -105,7 +135,7 @@ public class BattleScreen implements Screen {
 
     @Override
     public void dispose() {
-        shape.dispose();
+        shapeRend.dispose();
         sampleD6.dispose();
     }
 }
