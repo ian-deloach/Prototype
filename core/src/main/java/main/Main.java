@@ -14,20 +14,20 @@ import java.io.IOException;
 
 public class Main extends Game {
 
-    public FitViewport viewport;
     public BitmapFont font;
     public SpriteBatch batch;
 
     @Override
     public void create() {
-        viewport = new FitViewport(800, 600);
         font = new BitmapFont();
         batch = new SpriteBatch();
-
         font.setUseIntegerPositions(false);
-        font.getData().setScale(viewport.getWorldHeight() / Gdx.graphics.getHeight());
-
         this.setScreen(new BattleScreen(this));
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
     }
 
     public void render() {
@@ -38,6 +38,5 @@ public class Main extends Game {
         batch.dispose();
         font.dispose();
     }
-
 
 }
