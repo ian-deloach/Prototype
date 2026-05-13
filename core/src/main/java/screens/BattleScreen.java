@@ -91,11 +91,53 @@ public class BattleScreen implements Screen {
         game.spriteBatch.end();
     }
 
-    public void makeRectangles() {
+    public void makePlayerSkills() {
         shapeRend.begin(ShapeRenderer.ShapeType.Line);
-        shapeRend.setColor(Color.WHITE);
-        // Put rectangle at 200x 200y with the last two being the size in pixels
-        shapeRend.rect(200, 200, 100,10);
+        shapeRend.setColor(Color.BLUE);
+        shapeRend.rect(25, 150, 150, 250);
+        shapeRend.end();
+    }
+
+    public void makeEnemyStats() {
+        shapeRend.begin(ShapeRenderer.ShapeType.Line);
+        shapeRend.setColor(Color.RED);
+        shapeRend.rect(450, 450, 300, 100);
+        shapeRend.end();
+    }
+
+    public void makeEnemySkills() {
+        // Starts at 625, 150
+        // Ends at 775, 400
+        shapeRend.begin(ShapeRenderer.ShapeType.Line);
+        shapeRend.setColor(Color.ORANGE);
+        shapeRend.rect(625, 150, 150, 250);
+        shapeRend.end();
+    }
+
+    public void makeDraftArea() {
+        //80 width
+        // 180 height
+        // Starts at 350, 160
+        // Ends at 460, 420
+        // Usable width: 120
+        // Usable height: 260
+        shapeRend.begin(ShapeRenderer.ShapeType.Line);
+        shapeRend.setColor(Color.GREEN);
+        shapeRend.rect(340, 160, 120, 260);
+        shapeRend.end();
+    }
+
+    public void makeItemBar() {
+        shapeRend.begin(ShapeRenderer.ShapeType.Line);
+        shapeRend.setColor(Color.PURPLE);
+        shapeRend.rect(100, 75, 600, 65);
+        shapeRend.end();
+    }
+
+    public void makeRelicBar() {
+        shapeRend.begin(ShapeRenderer.ShapeType.Line);
+        shapeRend.setColor(Color.PINK);
+        shapeRend.rect(150, 25, 500, 50);
         shapeRend.end();
     }
 
@@ -114,14 +156,24 @@ public class BattleScreen implements Screen {
         viewport.apply();
         // makeGrid() should go FIRST so everything else is rendered on top
         makeGrid();
-        makeRectangles();
+        makeDraftArea();
         makePlayerStats();
+        makePlayerSkills();
+        makeEnemyStats();
+        makeEnemySkills();
+        makeItemBar();
+        makeRelicBar();
 
         // Draw text in corners
         game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         game.spriteBatch.begin();
-        game.defaultFont.draw(game.spriteBatch, "battle screen", 300, 300);
-        game.spriteBatch.draw(sampleD6, 100, 100, 16, 16);
+        // Give each die 32 width space and height
+        game.spriteBatch.draw(sampleD6, 350, 160, 32, 32);
+        game.spriteBatch.draw(sampleD6, 418, 160, 32, 32);
+        game.spriteBatch.draw(sampleD6, 350, 206, 32, 32);
+        game.spriteBatch.draw(sampleD6, 350, 252, 32, 32);
+        game.spriteBatch.draw(sampleD6, 350, 298, 32, 32);
+        game.spriteBatch.draw(sampleD6, 350, 346, 32, 32);
 
         game.spriteBatch.end();
     }
