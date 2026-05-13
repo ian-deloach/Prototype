@@ -3,8 +3,11 @@ package main;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import entity.Battle;
 import creatures.Enemy;
@@ -14,15 +17,24 @@ import java.io.IOException;
 
 public class Main extends Game {
 
-    public BitmapFont font;
+    public BitmapFont defaultFont;
     public SpriteBatch spriteBatch;
+    FreeTypeFontGenerator generator;
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
 
     @Override
     public void create() {
-        font = new BitmapFont();
         spriteBatch = new SpriteBatch();
-        font.setUseIntegerPositions(false);
+
         this.setScreen(new BattleScreen(this));
+
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/defaultFont.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        parameter.magFilter = Texture.TextureFilter.Linear;
+        defaultFont = generator.generateFont(parameter);
+        defaultFont.setColor(Color.WHITE);
+        defaultFont.setUseIntegerPositions(false);
     }
 
     @Override
@@ -36,7 +48,7 @@ public class Main extends Game {
 
     public void dispose() {
         spriteBatch.dispose();
-        font.dispose();
+        defaultFont.dispose();
     }
 
 }

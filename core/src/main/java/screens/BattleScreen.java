@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -74,7 +76,18 @@ public class BattleScreen implements Screen {
         shapeRend.end();
 
         game.spriteBatch.begin();
-        game.font.draw(game.spriteBatch, battle.getPlayer().getName(), 50, 570);
+        game.defaultFont.draw(game.spriteBatch, battle.getPlayer().getName(), 50, 570);
+        game.defaultFont.draw(game.spriteBatch, "ATK", 55, 540);
+        game.defaultFont.draw(game.spriteBatch, String.valueOf(battle.getPlayer().getAttack()) + "0000", 90, 540);
+
+        game.defaultFont.draw(game.spriteBatch, "DEF", 55, 517);
+        game.defaultFont.draw(game.spriteBatch, String.valueOf(battle.getPlayer().getDefense()), 90, 517);
+
+        game.defaultFont.draw(game.spriteBatch, "SPD", 55, 494);
+        game.defaultFont.draw(game.spriteBatch, String.valueOf(battle.getPlayer().getSpeed()), 90, 494);
+
+        game.defaultFont.draw(game.spriteBatch, "ENG", 55,471);
+        game.defaultFont.draw(game.spriteBatch, String.valueOf(battle.getPlayer().getEnergy()), 90,471);
         game.spriteBatch.end();
     }
 
@@ -107,7 +120,7 @@ public class BattleScreen implements Screen {
         // Draw text in corners
         game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         game.spriteBatch.begin();
-        game.font.draw(game.spriteBatch, "battle screen", 300, 300);
+        game.defaultFont.draw(game.spriteBatch, "battle screen", 300, 300);
         game.spriteBatch.draw(sampleD6, 100, 100, 16, 16);
 
         game.spriteBatch.end();

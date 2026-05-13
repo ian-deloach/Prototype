@@ -27,6 +27,22 @@ public class Creature {
         abilities.add(new Ability());
     }
 
+    public int getAttack() {
+        return stats.get(Dice.DieType.ATTACK);
+    }
+
+    public int getDefense() {
+        return stats.get(Dice.DieType.DEFENSE);
+    }
+
+    public int getSpeed() {
+        return stats.get(Dice.DieType.SPEED);
+    }
+
+    public int getEnergy() {
+        return stats.get(Dice.DieType.ENERGY);
+    }
+
     public String getName() {
         return name;
     }
@@ -47,39 +63,23 @@ public class Creature {
         return baseStats;
     }
 
-    public void setBaseStats(HashMap<Dice.DieType, Integer> baseStats) {
-        this.baseStats = baseStats;
-    }
 
     public HashMap<Dice.DieType, Integer> getStats() {
         return stats;
     }
 
-    public void setStats(HashMap<Dice.DieType, Integer> stats) {
-        this.stats = stats;
-    }
 
     public HashMap<Dice.DieType, Integer> getPreparedStatChanges() {
         return preparedStatChanges;
     }
 
-    public void setPreparedStatChanges(HashMap<Dice.DieType, Integer> preparedStatChanges) {
-        this.preparedStatChanges = preparedStatChanges;
-    }
 
     public ArrayList<Dice> getSelectedDice() {
         return selectedDice;
-    }
-
-    public void setSelectedDice(ArrayList<Dice> selectedDice) {
-        this.selectedDice = selectedDice;
     }
 
     public ArrayList<Ability> getAbilities() {
         return abilities;
     }
 
-    public void setAbilities(ArrayList<Ability> abilities) {
-        this.abilities = abilities;
-    }
 }
