@@ -24,6 +24,7 @@ public class BattleScreen implements Screen {
     private ShapeRenderer shapeRend;
     private OrthographicCamera camera;
     private Texture sampleD6;
+    private Texture dog;
     Battle battle;
 
     public BattleScreen(final Main game) {
@@ -146,6 +147,7 @@ public class BattleScreen implements Screen {
         setUpBattle();
         shapeRend = new ShapeRenderer();
         sampleD6 = new Texture("sampleD6.png");
+        dog = new Texture("images/placeholderMC.jpg");
     }
 
     @Override
@@ -156,7 +158,7 @@ public class BattleScreen implements Screen {
         viewport.apply();
         // makeGrid() should go FIRST so everything else is rendered on top
         makeGrid();
-        makeDraftArea();
+//        makeDraftArea();
         makePlayerStats();
         makePlayerSkills();
         makeEnemyStats();
@@ -174,6 +176,7 @@ public class BattleScreen implements Screen {
         game.spriteBatch.draw(sampleD6, 350, 252, 32, 32);
         game.spriteBatch.draw(sampleD6, 350, 298, 32, 32);
         game.spriteBatch.draw(sampleD6, 350, 346, 32, 32);
+        game.spriteBatch.draw(dog, 200, 150, 115, 175);
 
         game.spriteBatch.end();
     }
