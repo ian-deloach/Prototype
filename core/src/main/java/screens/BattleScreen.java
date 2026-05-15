@@ -27,6 +27,13 @@ public class BattleScreen implements Screen {
     private Texture dog;
     Battle battle;
 
+    private Texture attack1;
+    private Texture attack2;
+    private Texture attack3;
+    private Texture attack4;
+    private Texture attack5;
+    private Texture attack6;
+
     public BattleScreen(final Main game) {
         this.game = game;
         camera = new OrthographicCamera();
@@ -147,6 +154,12 @@ public class BattleScreen implements Screen {
         setUpBattle();
         shapeRend = new ShapeRenderer();
         sampleD6 = new Texture("sampleD6.png");
+        attack1 = new Texture("dice/attack1.png");
+        attack2 = new Texture("dice/attack2.png");
+        attack3 = new Texture("dice/attack3.png");
+        attack4 = new Texture("dice/attack4.png");
+        attack5 = new Texture("dice/attack5.png");
+        attack6 = new Texture("dice/attack6.png");
         dog = new Texture("images/placeholderMC.jpg");
     }
 
@@ -170,12 +183,12 @@ public class BattleScreen implements Screen {
         game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         game.spriteBatch.begin();
         // Give each die 32 width space and height
-        game.spriteBatch.draw(sampleD6, 350, 160, 32, 32);
-        game.spriteBatch.draw(sampleD6, 418, 160, 32, 32);
-        game.spriteBatch.draw(sampleD6, 350, 206, 32, 32);
-        game.spriteBatch.draw(sampleD6, 350, 252, 32, 32);
-        game.spriteBatch.draw(sampleD6, 350, 298, 32, 32);
-        game.spriteBatch.draw(sampleD6, 350, 346, 32, 32);
+        game.spriteBatch.draw(attack5, 350, 160, 32, 32);
+        game.spriteBatch.draw(attack6, 418, 160, 32, 32);
+        game.spriteBatch.draw(attack4, 350, 206, 32, 32);
+        game.spriteBatch.draw(attack3, 350, 252, 32, 32);
+        game.spriteBatch.draw(attack2, 350, 298, 32, 32);
+        game.spriteBatch.draw(attack1, 350, 346, 32, 32);
         game.spriteBatch.draw(dog, 200, 150, 115, 175);
 
         game.spriteBatch.end();
