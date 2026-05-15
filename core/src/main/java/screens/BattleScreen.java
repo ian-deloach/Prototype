@@ -2,6 +2,7 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,15 +25,9 @@ public class BattleScreen implements Screen {
     private ShapeRenderer shapeRend;
     private OrthographicCamera camera;
     private Texture sampleD6;
-    private Texture dog;
     Battle battle;
 
-    private Texture attack1;
-    private Texture attack2;
-    private Texture attack3;
-    private Texture attack4;
-    private Texture attack5;
-    private Texture attack6;
+    AssetLibrary library = new AssetLibrary();
 
     public BattleScreen(final Main game) {
         this.game = game;
@@ -40,6 +35,7 @@ public class BattleScreen implements Screen {
         viewport = new FitViewport(800, 600, camera);
         camera.position.set(400, 300, 0);
         camera.update();
+        library.loadBattleAssets();
     }
 
     public void setUpBattle() {
@@ -153,45 +149,49 @@ public class BattleScreen implements Screen {
     public void show() {
         setUpBattle();
         shapeRend = new ShapeRenderer();
-        sampleD6 = new Texture("sampleD6.png");
-        attack1 = new Texture("dice/attack1.png");
-        attack2 = new Texture("dice/attack2.png");
-        attack3 = new Texture("dice/attack3.png");
-        attack4 = new Texture("dice/attack4.png");
-        attack5 = new Texture("dice/attack5.png");
-        attack6 = new Texture("dice/attack6.png");
-        dog = new Texture("images/placeholderMC.jpg");
     }
 
     @Override
     public void render(float v) {
         ScreenUtils.clear(Color.BLACK);
-        game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
-        shapeRend.setProjectionMatrix(viewport.getCamera().combined);
-        viewport.apply();
-        // makeGrid() should go FIRST so everything else is rendered on top
-        makeGrid();
+
+        if (library.getManager().update()) {
+
+            game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+            shapeRend.setProjectionMatrix(viewport.getCamera().combined);
+            viewport.apply();
+            // makeGrid() should go FIRST so everything else is rendered on top
+            makeGrid();
 //        makeDraftArea();
-        makePlayerStats();
-        makePlayerSkills();
-        makeEnemyStats();
-        makeEnemySkills();
-        makeItemBar();
-        makeRelicBar();
+            makePlayerStats();
+            makePlayerSkills();
+            makeEnemyStats();
+            makeEnemySkills();
+            makeItemBar();
+            makeRelicBar();
 
-        // Draw text in corners
-        game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
-        game.spriteBatch.begin();
-        // Give each die 32 width space and height
-        game.spriteBatch.draw(attack5, 350, 160, 32, 32);
-        game.spriteBatch.draw(attack6, 418, 160, 32, 32);
-        game.spriteBatch.draw(attack4, 350, 206, 32, 32);
-        game.spriteBatch.draw(attack3, 350, 252, 32, 32);
-        game.spriteBatch.draw(attack2, 350, 298, 32, 32);
-        game.spriteBatch.draw(attack1, 350, 346, 32, 32);
-        game.spriteBatch.draw(dog, 200, 150, 115, 175);
+            // Draw text in corners
+            game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+            game.spriteBatch.begin();
+            // Give each die 32 width space and height
+            game.spriteBatch.draw(library.getManager().get("dice/attack1.png", Texture.class),
+                    350, 160, 32, 32);
+            game.spriteBatch.draw(library.getManager().get("dice/attack6.png", Texture.class),
+                    418, 160, 32, 32);
+            game.spriteBatch.draw(library.getManager().get("dice/energy4.png", Texture.class),
+                    350, 206, 32, 32);
+            game.spriteBatch.draw(library.getManager().get("dice/speed3.png", Texture.class),
+                    350, 252, 32, 32);
+            game.spriteBatch.draw(library.getManager().get("dice/defense2.png", Texture.class),
+                    350, 298, 32, 32);
+            game.spriteBatch.draw(library.getManager().get("dice/attack1.png", Texture.class),
+                    350, 346, 32, 32);
+            game.spriteBatch.draw(library.getManager().get("images/placeholderMC.jpg", Texture.class),
+                    200, 150, 115, 175);
 
-        game.spriteBatch.end();
+            game.spriteBatch.end();
+        }
+
     }
 
     @Override
@@ -217,6 +217,6 @@ public class BattleScreen implements Screen {
     @Override
     public void dispose() {
         shapeRend.dispose();
-        sampleD6.dispose();
+        library.getManager().dispose();
     }
 }

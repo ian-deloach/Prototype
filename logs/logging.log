@@ -1,0 +1,11 @@
+May 09, 2026 4:08:19 PM entity.Battle abilitySelect
+SEVERE: Something else happened with ability selection.
+java.lang.NullPointerException
+	at abilities.Ability.useAbility(Ability.java:36)
+	at entity.Battle.abilitySelect(Battle.java:150)
+	at entity.Battle.attack(Battle.java:164)
+	at entity.Battle.draftPeriod(Battle.java:108)
+	at entity.Battle.startRound(Battle.java:67)
+	at entity.Battle.runBattle(Battle.java:45)
+	at main.Main.main(Main.java:19)
+
