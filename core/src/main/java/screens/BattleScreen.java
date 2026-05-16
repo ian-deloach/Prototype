@@ -2,22 +2,27 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import creatures.Enemy;
 import creatures.Player;
 import entity.Battle;
 import main.Main;
+import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
-import java.util.Locale;
 
 public class BattleScreen implements Screen {
 
@@ -26,6 +31,9 @@ public class BattleScreen implements Screen {
     private ShapeRenderer shapeRend;
     private OrthographicCamera camera;
     Battle battle;
+    private Stage stage;
+    private Table table;
+    private boolean isDraftAreaCreated = false;
 
     AssetLibrary library = new AssetLibrary();
 
@@ -36,6 +44,7 @@ public class BattleScreen implements Screen {
         camera.position.set(400, 300, 0);
         camera.update();
         library.loadBattleAssets();
+        stage = new Stage(viewport, game.spriteBatch);
     }
 
     public void setUpBattle() {
@@ -82,7 +91,7 @@ public class BattleScreen implements Screen {
         game.spriteBatch.begin();
         game.defaultFont.draw(game.spriteBatch, battle.getPlayer().getName(), 50, 570);
         game.defaultFont.draw(game.spriteBatch, "ATK", 55, 540);
-        game.defaultFont.draw(game.spriteBatch, String.valueOf(battle.getPlayer().getAttack()) + "0000", 90, 540);
+        game.defaultFont.draw(game.spriteBatch, String.valueOf(battle.getPlayer().getAttack()), 90, 540);
 
         game.defaultFont.draw(game.spriteBatch, "DEF", 55, 517);
         game.defaultFont.draw(game.spriteBatch, String.valueOf(battle.getPlayer().getDefense()), 90, 517);
@@ -96,6 +105,7 @@ public class BattleScreen implements Screen {
     }
 
     public void makePlayerSkills() {
+        // TODO Replace with stages and UI images
         shapeRend.begin(ShapeRenderer.ShapeType.Line);
         shapeRend.setColor(Color.BLUE);
         shapeRend.rect(25, 150, 150, 250);
@@ -103,6 +113,7 @@ public class BattleScreen implements Screen {
     }
 
     public void makeEnemyStats() {
+        // TODO Replace with stages and UI images
         shapeRend.begin(ShapeRenderer.ShapeType.Line);
         shapeRend.setColor(Color.RED);
         shapeRend.rect(450, 450, 300, 100);
@@ -110,8 +121,7 @@ public class BattleScreen implements Screen {
     }
 
     public void makeEnemySkills() {
-        // Starts at 625, 150
-        // Ends at 775, 400
+        // TODO Replace with stages and UI images
         shapeRend.begin(ShapeRenderer.ShapeType.Line);
         shapeRend.setColor(Color.ORANGE);
         shapeRend.rect(625, 150, 150, 250);
@@ -128,18 +138,26 @@ public class BattleScreen implements Screen {
         int x = 350;
         int y = 346;
         String fileName;
-
-        game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
-        game.spriteBatch.begin();
+        Image dieImage = null;
 
         for (int i = 0; i < battle.getDraftDice().size(); i++) {
+            System.out.println("i = " + i);
             fileName = "dice/"
                         + battle.getDraftDice().get(i).getType().toLowerCase()
                         + battle.getDraftDice().get(i).getValue()
                         + ".png";
 
-            game.spriteBatch.draw(library.getManager().get(fileName,Texture.class),
-                x, y, 32, 32);
+            dieImage = new Image(library.getManager().get(fileName, Texture.class));
+
+            String finalFileName = fileName;
+            dieImage.addListener((new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("clicked: " + finalFileName);
+                }
+            }));
+
+            dieImage.setBounds(x, y, 32, 32);
 
             if (i % 2 == 0) {
                 x = 418;
@@ -147,12 +165,13 @@ public class BattleScreen implements Screen {
                 x = 350;
                 y -= 46;
             }
+            stage.addActor(dieImage);
         }
 
-        game.spriteBatch.end();
     }
 
     public void makeItemBar() {
+        // TODO Replace with stages and UI images
         shapeRend.begin(ShapeRenderer.ShapeType.Line);
         shapeRend.setColor(Color.PURPLE);
         shapeRend.rect(100, 75, 600, 65);
@@ -160,6 +179,7 @@ public class BattleScreen implements Screen {
     }
 
     public void makeRelicBar() {
+        // TODO Replace with stages and UI images
         shapeRend.begin(ShapeRenderer.ShapeType.Line);
         shapeRend.setColor(Color.PINK);
         shapeRend.rect(150, 25, 500, 50);
@@ -169,6 +189,7 @@ public class BattleScreen implements Screen {
     @Override
     public void show() {
         setUpBattle();
+        Gdx.input.setInputProcessor(stage);
         shapeRend = new ShapeRenderer();
     }
 
@@ -183,13 +204,20 @@ public class BattleScreen implements Screen {
             viewport.apply();
             // makeGrid() should go FIRST so everything else is rendered on top
             makeGrid();
-            makeDraftArea();
             makePlayerStats();
             makePlayerSkills();
             makeEnemyStats();
             makeEnemySkills();
             makeItemBar();
             makeRelicBar();
+
+            if (!isDraftAreaCreated) {
+                makeDraftArea();
+                isDraftAreaCreated = true;
+            }
+
+            stage.act();
+            stage.draw();
 
             game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
             game.spriteBatch.begin();

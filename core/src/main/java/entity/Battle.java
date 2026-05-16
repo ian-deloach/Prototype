@@ -68,9 +68,6 @@ public class Battle {
                     random.nextInt(6) + 1
             ));
         }
-        System.out.println("Draft size: " + draftDice.size());
-        System.out.println("--------------------------------------------------");
-
     }
 
     // The player and the enemy both select their dice here.
