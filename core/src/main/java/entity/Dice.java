@@ -26,4 +26,9 @@ public class Dice {
     public int getValue() {
         return value;
     }
+
+    public String getType() {
+        return type.toString();
+    }
+
 }

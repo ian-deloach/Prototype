@@ -17,6 +17,7 @@ import entity.Battle;
 import main.Main;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public class BattleScreen implements Screen {
 
@@ -24,7 +25,6 @@ public class BattleScreen implements Screen {
     private FitViewport viewport;
     private ShapeRenderer shapeRend;
     private OrthographicCamera camera;
-    private Texture sampleD6;
     Battle battle;
 
     AssetLibrary library = new AssetLibrary();
@@ -119,16 +119,37 @@ public class BattleScreen implements Screen {
     }
 
     public void makeDraftArea() {
-        //80 width
-        // 180 height
-        // Starts at 350, 160
-        // Ends at 460, 420
-        // Usable width: 120
-        // Usable height: 260
         shapeRend.begin(ShapeRenderer.ShapeType.Line);
         shapeRend.setColor(Color.GREEN);
-        shapeRend.rect(340, 160, 120, 260);
+        shapeRend.rect(340, 150, 120, 238);
         shapeRend.end();
+
+        // The coordinates for the specific die being placed.
+        int x = 350;
+        int y = 346;
+        String fileName;
+
+        game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+        game.spriteBatch.begin();
+
+        for (int i = 0; i < battle.getDraftDice().size(); i++) {
+            fileName = "dice/"
+                        + battle.getDraftDice().get(i).getType().toLowerCase()
+                        + battle.getDraftDice().get(i).getValue()
+                        + ".png";
+
+            game.spriteBatch.draw(library.getManager().get(fileName,Texture.class),
+                x, y, 32, 32);
+
+            if (i % 2 == 0) {
+                x = 418;
+            } else {
+                x = 350;
+                y -= 46;
+            }
+        }
+
+        game.spriteBatch.end();
     }
 
     public void makeItemBar() {
@@ -162,7 +183,7 @@ public class BattleScreen implements Screen {
             viewport.apply();
             // makeGrid() should go FIRST so everything else is rendered on top
             makeGrid();
-//        makeDraftArea();
+            makeDraftArea();
             makePlayerStats();
             makePlayerSkills();
             makeEnemyStats();
@@ -170,26 +191,15 @@ public class BattleScreen implements Screen {
             makeItemBar();
             makeRelicBar();
 
-            // Draw text in corners
             game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
             game.spriteBatch.begin();
-            // Give each die 32 width space and height
-            game.spriteBatch.draw(library.getManager().get("dice/attack1.png", Texture.class),
-                    350, 160, 32, 32);
-            game.spriteBatch.draw(library.getManager().get("dice/attack6.png", Texture.class),
-                    418, 160, 32, 32);
-            game.spriteBatch.draw(library.getManager().get("dice/energy4.png", Texture.class),
-                    350, 206, 32, 32);
-            game.spriteBatch.draw(library.getManager().get("dice/speed3.png", Texture.class),
-                    350, 252, 32, 32);
-            game.spriteBatch.draw(library.getManager().get("dice/defense2.png", Texture.class),
-                    350, 298, 32, 32);
-            game.spriteBatch.draw(library.getManager().get("dice/attack1.png", Texture.class),
-                    350, 346, 32, 32);
+
+            // Player
             game.spriteBatch.draw(library.getManager().get("images/placeholderMC.jpg", Texture.class),
                     200, 150, 115, 175);
 
             game.spriteBatch.end();
+
         }
 
     }
