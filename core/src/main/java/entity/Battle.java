@@ -25,6 +25,16 @@ public class Battle {
     Creature[] fighters = new Creature[2];
     ArrayList<Dice> draftDice = new ArrayList<>();
     InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("logging.properties");
+    DraftState state;
+
+    // TODO REMOVE THIS. UPDATE updateDraft() for turn order.
+    boolean isFirstTurn = true;
+
+    private enum DraftState {
+        PLAYER_TURN,
+        ENEMY_TURN,
+        DONE
+    }
 
     // TODO Replace Scanner
 //    Scanner scan = new Scanner(System.in);
@@ -38,6 +48,7 @@ public class Battle {
         player.getStats().putAll(player.getBaseStats());
         fighters[1] = enemy;
         enemy.getStats().putAll(enemy.getBaseStats());
+        state = DraftState.DONE;
     }
 
     // Starts the fight. Pre-round stuff should be done here in the future.
@@ -68,6 +79,27 @@ public class Battle {
                     random.nextInt(6) + 1
             ));
         }
+    }
+
+    public void updateDraft() {
+        // TODO Update this to determine turn order.
+        // For now, the player will just go first.
+        if (isFirstTurn) {
+            state = DraftState.PLAYER_TURN;
+            isFirstTurn = false;
+        }
+        if (draftDice.isEmpty()) {
+            state = DraftState.DONE;
+        }
+    }
+
+    public void handlePlayerTurn(int playerChoice) {
+        alterStats(player, draftDice.get(playerChoice));
+        player.getSelectedDice().add(draftDice.remove(playerChoice));
+    }
+
+    public void handleEnemyTurn() {
+
     }
 
     // The player and the enemy both select their dice here.
@@ -212,5 +244,9 @@ public class Battle {
 
     public Creature[] getFighters() {
         return fighters;
+    }
+
+    public String getStateAsString() {
+        return state.toString();
     }
 }

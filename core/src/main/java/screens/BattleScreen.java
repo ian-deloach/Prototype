@@ -149,12 +149,17 @@ public class BattleScreen implements Screen {
 
             dieImage = new Image(library.getManager().get(fileName, Texture.class));
 
-            String finalFileName = fileName;
+
+            int finalI = i;
+            Image finalDieImage = dieImage;
             dieImage.addListener((new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    System.out.println("clicked: " + finalFileName);
+                    battle.handlePlayerTurn(finalI);
+                    isDraftAreaCreated = false;
+                    finalDieImage.remove();
                 }
+
             }));
 
             dieImage.setBounds(x, y, 32, 32);
@@ -165,7 +170,10 @@ public class BattleScreen implements Screen {
                 x = 350;
                 y -= 46;
             }
-            stage.addActor(dieImage);
+            // TODO This is currently re-adding the last actor to the stage even when removing one
+            if (battle.getStateAsString() != "DONE") {
+                stage.addActor(dieImage);
+            }
         }
 
     }
